@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct ToeTacTic_VIP_SwiftUIApp: App {
+    
+    @ObservedObject var navigationPathHolder = NavigationPathHolder()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack(path: $navigationPathHolder.path) {
+                ViewFactory.start(navigationPathHolder: navigationPathHolder)
+                    .navigationDestination(for: Destination.self) { destination in
+                        ViewFactory.createView(destination, navigationPathHolder: navigationPathHolder)
+                    }
+            }
         }
     }
 }
